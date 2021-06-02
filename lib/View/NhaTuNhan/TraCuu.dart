@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:nha_tu_nhan/View/CustomWidget/HoTenWidget.dart';
 import 'package:nha_tu_nhan/View/CustomWidget/MaSoHopDongWidget.dart';
 import 'package:nha_tu_nhan/View/NhaTuNhan/ThongTinTraCuu.dart';
+import 'package:nha_tu_nhan/ViewModel/NhaTuNhan/TraCuuViewModel.dart';
+import 'package:provider/provider.dart';
 
 class TraCuu extends StatefulWidget {
   const TraCuu({Key key, this.title}) : super(key: key);
@@ -16,6 +18,8 @@ class _TraCuuState extends State<TraCuu> {
   bool _showPhuongThucTraCuu = true;
   bool _showTraCuuBangMaHopDong = true;
 
+  bool _maSoHoDongInvalid = false;
+  bool _hoTenInvalid = false;
   String _maSoHopDongErrorText = "\u26A0 Thông tin bắt buộc.";
   String _hoTenErrorText = "\u26A0 Thông tin bắt buộc.";
 
@@ -26,6 +30,8 @@ class _TraCuuState extends State<TraCuu> {
 
   @override
   Widget build(BuildContext context) {
+    final traCuuModel = Provider.of<TraCuuViewModel>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -37,7 +43,7 @@ class _TraCuuState extends State<TraCuu> {
         color: Colors.grey[300],
         child: Form(
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          key: _formKey,
+          key: traCuuModel.formKey,
           child: CustomScrollView(
             scrollDirection: Axis.vertical,
             slivers: [
@@ -207,7 +213,10 @@ class _TraCuuState extends State<TraCuu> {
                                           SizedBox(
                                             height: 5,
                                           ),
-                                          MaSoHopDongWidget(errorText: _maSoHopDongErrorText)
+                                          MaSoHopDongWidget(
+                                            errorText: _maSoHopDongErrorText,
+                                            controller: traCuuModel.maSoHopDongController,
+                                          )
                                         ],
                                       ),
                                     ),
@@ -227,7 +236,10 @@ class _TraCuuState extends State<TraCuu> {
                                           SizedBox(
                                             height: 5,
                                           ),
-                                          HoTenWidget(errorText: _hoTenErrorText),
+                                          HoTenWidget(
+                                            errorText: _hoTenErrorText,
+                                            controller: traCuuModel.hoTenController,
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -243,21 +255,27 @@ class _TraCuuState extends State<TraCuu> {
                       child: SizedBox(
                         height: 32,
                         width: double.infinity,
-                        child: RaisedButton(
-                          onPressed: () {
-                            validateForm();
+                        child: Consumer<TraCuuViewModel>(
+                          builder: (context, value, child) {
+                            return RaisedButton(
+                              onPressed: () {
+                                print(_formKey);
+                                traCuuModel.validateForm();
 
-                            // Navigator.of(context).push(MaterialPageRoute(
-                            //   builder: (context) => ThongTinTraCuu(),
-                            // ));
+                                // Navigator.of(context).push(MaterialPageRoute(
+                                //   builder: (context) => ThongTinTraCuu(),
+                                // ));
+                              },
+                              // bac: Colors.grey[300],
+                              child: Text('XÁC NHẬN'),
+                              textColor: Colors.grey[500],
+                              color: Colors.grey[300],
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4)),
+                            );
                           },
-                          // bac: Colors.grey[300],
-                          child: Text('XÁC NHẬN'),
-                          textColor: Colors.grey[500],
-                          color: Colors.grey[300],
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(4)),
+                          // child: ,
                         ),
                       ),
                     )
@@ -365,7 +383,3 @@ class _TraCuuState extends State<TraCuu> {
     );
   }
 }
-
-
-
-
