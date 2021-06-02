@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ThongTinTraCuu extends StatefulWidget {
-  const ThongTinTraCuu({Key? key}) : super(key: key);
+  const ThongTinTraCuu({Key key}) : super(key: key);
 
   @override
   _ThongTinTraCuuState createState() => _ThongTinTraCuuState();
@@ -33,7 +33,7 @@ class _ThongTinTraCuuState extends State<ThongTinTraCuu> {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                              border: Border(top: BorderSide(color: (Colors.grey[300])!, width: 4))
+                              border: Border(top: BorderSide(color: Colors.grey[300], width: 4))
                           ),
                           child: Container(
                             padding: const EdgeInsets.only(left: 16, right: 16),
@@ -326,7 +326,7 @@ class _ThongTinTraCuuState extends State<ThongTinTraCuu> {
                               ),
                               Container(
                                 decoration: BoxDecoration(
-                                    border: Border(top: BorderSide(color: (Colors.grey[300])!, width: 4))
+                                    border: Border(top: BorderSide(color: Colors.grey[300], width: 4))
                                 ),
                                 child: Container(
                                   padding: const EdgeInsets.only(left: 16, right: 16),
@@ -420,7 +420,7 @@ class _ThongTinTraCuuState extends State<ThongTinTraCuu> {
                             children: [
                               Container(
                                 decoration: BoxDecoration(
-                                    border: Border(top: BorderSide(color: (Colors.grey[300])!, width: 4))
+                                    border: Border(top: BorderSide(color: Colors.grey[300], width: 4))
                                 ),
                                 child: Container(
                                   padding: const EdgeInsets.only(left: 16, right: 16),
@@ -531,7 +531,7 @@ class _ThongTinTraCuuState extends State<ThongTinTraCuu> {
                             children: [
                               Container(
                                 decoration: BoxDecoration(
-                                    border: Border(top: BorderSide(color: (Colors.grey[300])!, width: 4))
+                                    border: Border(top: BorderSide(color: Colors.grey[300], width: 4))
                                 ),
                                 child: Container(
                                   padding: const EdgeInsets.only(left: 16, right: 16),
