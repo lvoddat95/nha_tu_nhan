@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
 
-class HoTenWidget extends StatelessWidget {
-  const HoTenWidget({Key key, this.errorText, this.controller}) : super(key: key);
-  final String errorText;
+class VniTextFormField extends StatelessWidget {
+  final String errorMessage;
+  final String placeholder;
+  final String counterText;
   final TextEditingController controller;
+  final int maxLength;
+
+  const VniTextFormField({
+    Key key,
+    @required this.controller,
+    @required this.placeholder,
+    @required this.maxLength,
+    this.errorMessage,
+    this.counterText,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,17 +22,18 @@ class HoTenWidget extends StatelessWidget {
       controller: controller,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return errorText;
+          return errorMessage;
         }
         return null;
       },
       autofocus: false,
-      maxLength: 20,
+      maxLength: maxLength,
       textCapitalization: TextCapitalization.characters,
       textAlignVertical: TextAlignVertical.bottom,
       decoration: InputDecoration(
         isDense: true,
-        hintText: "Nhập họ và tên chủ hợp đồng",
+        counterText: counterText,
+        hintText: placeholder,
         hintStyle: Theme.of(context).textTheme.caption,
         contentPadding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 8.0),
         border: OutlineInputBorder(),

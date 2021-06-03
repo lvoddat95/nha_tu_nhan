@@ -1,23 +1,16 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:nha_tu_nhan/Helper/Utility.dart';
-import 'package:provider/provider.dart';
 
-class AlertDialogSlected extends StatelessWidget {
-  const AlertDialogSlected({
+class VniAlertDialogSlected extends StatelessWidget {
+  const VniAlertDialogSlected({
     Key key,
     @required this.label,
     @required this.placeholder,
-  @required this.data,
-  @required this.index = 0,
-    // this.function,
+    @required this.onPress,
   }) : super(key: key);
 
   final String label;
   final String placeholder;
-  // final Function function;
-  final int index;
-  final List data;
+  final VoidCallback onPress;
 
   @override
   Widget build(BuildContext context) {
@@ -67,9 +60,7 @@ class AlertDialogSlected extends StatelessWidget {
                   ),
                 ],
               ),
-              onPressed: () {
-                Utility.showAlertDialogTest();
-              },
+              onPressed: onPress,
 
               /// For enabling the button
             ),
@@ -78,6 +69,4 @@ class AlertDialogSlected extends StatelessWidget {
       ),
     ));
   }
-
-
 }
