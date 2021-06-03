@@ -1,9 +1,12 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:nha_tu_nhan/View/CustomWidget/HoTenWidget.dart';
-import 'package:nha_tu_nhan/View/CustomWidget/MaSoHopDongWidget.dart';
-import 'package:nha_tu_nhan/View/NhaTuNhan/ThongTinTraCuu.dart';
-import 'package:nha_tu_nhan/ViewModel/NhaTuNhan/TraCuuViewModel.dart';
+import 'package:nha_tu_nhan/Helper/Utility.dart';
+import 'package:nha_tu_nhan/View/CustomWidget/alert_dialog_selected_widget.dart';
+import 'package:nha_tu_nhan/ViewModel/NhaTuNhan/ho_ten_widget.dart';
+import 'package:nha_tu_nhan/ViewModel/NhaTuNhan/ma_so_hop_dong_widget.dart';
+import 'package:nha_tu_nhan/View/NhaTuNhan/thong_tin_tra_cuu.dart';
+import 'package:nha_tu_nhan/ViewModel/NhaTuNhan/tra_cuu_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class TraCuu extends StatefulWidget {
@@ -22,11 +25,13 @@ class _TraCuuState extends State<TraCuu> {
   bool _hoTenInvalid = false;
   String _maSoHopDongErrorText = "\u26A0 Thông tin bắt buộc.";
   String _hoTenErrorText = "\u26A0 Thông tin bắt buộc.";
-
-  TextEditingController maSoHopDongController = TextEditingController();
-  TextEditingController hoTenController = TextEditingController();
-
-  final _formKey = GlobalKey<FormState>();
+  String _loaiHinhBaoHiemLabel = "Chọn loại hình bảo hiểm";
+  int _loaiHinhBaoHiemIndex = 0;
+  final _data = [
+    'TNDS bắt buộc ô tô',
+    'TNDS bắt buộc xe máy / xe điện',
+    'Bảo hiểm nhà tư nhân'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -81,60 +86,66 @@ class _TraCuuState extends State<TraCuu> {
                               style: TextStyle(
                                   fontSize: 14, color: Colors.grey[700]),
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 24),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Loại hình bảo hiểm",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.grey[700],
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  SizedBox(
-                                    height: 32,
-                                    child: RaisedButton(
-                                      color: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(4),
-                                        side: BorderSide(color: Colors.grey),
-                                      ),
-                                      elevation: 0,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment
-                                            .spaceBetween, // Center the Widgets.
-                                        mainAxisSize: MainAxisSize
-                                            .max, // Use all of width in RaisedButton.
-                                        children: [
-                                          Text(
-                                            "Chọn loại hình bảo hiểm",
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.grey[500],
-                                            ),
-                                          ),
-                                          Icon(
-                                            Icons.arrow_drop_down,
-                                            color: Colors.grey[700],
-                                            size: 18,
-                                          ),
-                                        ],
-                                      ),
-                                      onPressed: () {
-                                        showSelectDialogLoaiHinh(context);
-                                      },
-
-                                      /// For enabling the button
-                                    ),
-                                  ),
-                                ],
-                              ),
+                            AlertDialogSlected(
+                              label: "Loại hình bảo hiểm",
+                              placeholder: "Chọn",
+                              data: _data,
                             ),
+                            // Padding(
+                            //   padding: EdgeInsets.only(top: 24),
+                            //   child: Column(
+                            //     crossAxisAlignment: CrossAxisAlignment.start,
+                            //     children: [
+                            //       Text(
+                            //         "Loại hình bảo hiểm",
+                            //         style: TextStyle(
+                            //             fontSize: 14,
+                            //             color: Colors.grey[700],
+                            //             fontWeight: FontWeight.w500),
+                            //       ),
+                            //       SizedBox(
+                            //         height: 5,
+                            //       ),
+                            //       SizedBox(
+                            //         height: 32,
+                            //         child: RaisedButton(
+                            //           color: Colors.white,
+                            //           shape: RoundedRectangleBorder(
+                            //             borderRadius: BorderRadius.circular(4),
+                            //             side: BorderSide(color: Colors.grey),
+                            //           ),
+                            //           elevation: 0,
+                            //           padding: EdgeInsets.all(8.0),
+                            //           child: Row(
+                            //             mainAxisAlignment: MainAxisAlignment
+                            //                 .spaceBetween, // Center the Widgets.
+                            //             mainAxisSize: MainAxisSize
+                            //                 .max, // Use all of width in RaisedButton.
+                            //             children: [
+                            //               Text(
+                            //                 _loaiHinhBaoHiemLabel,
+                            //                 style: TextStyle(
+                            //                   fontSize: 12,
+                            //                   color: Colors.grey[500],
+                            //                 ),
+                            //               ),
+                            //               Icon(
+                            //                 Icons.arrow_drop_down,
+                            //                 color: Colors.grey[700],
+                            //                 size: 18,
+                            //               ),
+                            //             ],
+                            //           ),
+                            //           onPressed: () {
+                            //             showAlertDialog(context);
+                            //           },
+                            //
+                            //           /// For enabling the button
+                            //         ),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
                             Visibility(
                               visible: _showPhuongThucTraCuu,
                               child: Padding(
@@ -162,6 +173,7 @@ class _TraCuuState extends State<TraCuu> {
                                           side: BorderSide(color: Colors.grey),
                                         ),
                                         elevation: 0,
+                                        padding: EdgeInsets.all(8.0),
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment
                                               .spaceBetween, // Center the Widgets.
@@ -215,7 +227,8 @@ class _TraCuuState extends State<TraCuu> {
                                           ),
                                           MaSoHopDongWidget(
                                             errorText: _maSoHopDongErrorText,
-                                            controller: traCuuModel.maSoHopDongController,
+                                            controller: traCuuModel
+                                                .maSoHopDongController,
                                           )
                                         ],
                                       ),
@@ -238,7 +251,8 @@ class _TraCuuState extends State<TraCuu> {
                                           ),
                                           HoTenWidget(
                                             errorText: _hoTenErrorText,
-                                            controller: traCuuModel.hoTenController,
+                                            controller:
+                                                traCuuModel.hoTenController,
                                           ),
                                         ],
                                       ),
@@ -259,12 +273,7 @@ class _TraCuuState extends State<TraCuu> {
                           builder: (context, value, child) {
                             return RaisedButton(
                               onPressed: () {
-                                print(_formKey);
                                 traCuuModel.validateForm();
-
-                                // Navigator.of(context).push(MaterialPageRoute(
-                                //   builder: (context) => ThongTinTraCuu(),
-                                // ));
                               },
                               // bac: Colors.grey[300],
                               child: Text('XÁC NHẬN'),
@@ -289,14 +298,6 @@ class _TraCuuState extends State<TraCuu> {
     );
   }
 
-  void validateForm() {
-    if (_formKey.currentState.validate()) {
-      print(_formKey.currentState.validate());
-    } else {
-      print('Form is valid');
-    }
-  }
-
   void showPhuongThucTraCuu() {
     setState(() {
       _showPhuongThucTraCuu = true;
@@ -307,6 +308,102 @@ class _TraCuuState extends State<TraCuu> {
     setState(() {
       _showTraCuuBangMaHopDong = true;
     });
+  }
+
+  void showAlertDialog(BuildContext context) {
+    // set up the buttons
+
+    final data = [
+      'TNDS bắt buộc ô tô',
+      'TNDS bắt buộc xe máy / xe điện',
+      'Bảo hiểm nhà tư nhân'
+    ];
+
+    AlertDialog alertDialog = AlertDialog(
+      contentPadding: EdgeInsets.all(0.0),
+      scrollable: false,
+      title: Text('Chọn loại hình bảo hiểmss'),
+      content: Container(
+        width: double.maxFinite,
+        height: (16 + 50 * data.length).toDouble(),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                child: ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Column(
+                      children: [
+                        Divider(
+                          color: Colors.grey[300],
+                          height: 1,
+                          thickness: 1,
+                          indent: 0,
+                          endIndent: 0,
+                        ),
+                        FlatButton(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Expanded(
+                                child: Container(
+                                  child: AutoSizeText(
+                                    data[index],
+                                    maxLines: 3,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        .apply(color: Colors.grey[700]),
+                                  ),
+                                ),
+                              ),
+                              (_loaiHinhBaoHiemIndex == index)
+                                  ? Icon(
+                                      Icons.radio_button_checked_rounded,
+                                      color: ConvertHexColor('00819D'),
+                                      size: 20,
+                                    )
+                                  : Icon(
+                                      Icons.radio_button_unchecked_rounded,
+                                      color: Colors.black,
+                                      size: 20,
+                                    ),
+                            ],
+                          ),
+                          onPressed: () {
+                            print(context);
+                            Navigator.pop(context, index);
+                            setState(() {
+                              _loaiHinhBaoHiemLabel = data[index];
+                              _loaiHinhBaoHiemIndex = index;
+                            });
+                            // return data[index];
+                            print(_loaiHinhBaoHiemIndex);
+                          },
+                        )
+                      ],
+                    );
+                  },
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alertDialog;
+      },
+    );
   }
 
   showSelectDialogLoaiHinh(BuildContext context) {
