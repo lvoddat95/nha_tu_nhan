@@ -83,7 +83,7 @@ class Utility {
                               ),
                               onPressed: () {
                                 print(context);
-                                print(position);
+                                print('utility position $position');
                                 Navigator.pop(context, position);
                                 return data[position];
                               },
@@ -100,7 +100,7 @@ class Utility {
         );
       },
     );
-    return position;
+    return position ?? 0;
   }
 }
 

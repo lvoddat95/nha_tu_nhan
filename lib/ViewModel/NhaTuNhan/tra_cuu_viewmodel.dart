@@ -7,18 +7,18 @@ class TraCuuViewModel with ChangeNotifier {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController maSoHopDongController = TextEditingController();
   final TextEditingController hoTenController = TextEditingController();
-
+  bool formInvalid = false;
   String maSoHopDongErrorText = "\u26A0 Thông tin bắt buộc.";
   String hoTenErrorText = "\u26A0 Thông tin bắt buộc.";
 
   String maSoHopDongPlaceholder = "Nhập mã số hợp đồng";
   String hoTenPlaceholder = "Nhập họ và tên chủ hợp đồng";
 
-  bool showPhuongThucTraCuu = false;
-  bool showTraCuuBangMaHopDong = false;
+  bool showPhuongThucTraCuu = true;
+  bool showTraCuuBangMaHopDong = true;
 
-  String loaiHinhBaoHiemLabel = "Chọn loại hình bảo hiểm";
-  int _loaiHinhBaoHiemIndex = -1;
+  String loaiHinhBaoHiemPlaceholder = "Chọn loại hình bảo hiểm 1";
+  int _loaiHinhBaoHiemIndex = 0;
   final List<String> _loaiHingBaoHiemData = [
     'TNDS bắt buộc ô tô',
     'TNDS bắt buộc xe máy / xe điện',
@@ -37,6 +37,8 @@ class TraCuuViewModel with ChangeNotifier {
   BuildContext context = navigatorKey.currentContext;
 
   void validateForm() {
+    formInvalid = formKey.currentState.validate();
+
     if (formKey.currentState.validate()) {
       print(formKey.currentState.validate());
       Navigator.push(
@@ -45,24 +47,25 @@ class TraCuuViewModel with ChangeNotifier {
             builder: (context) => ThongTinTraCuu(),
           ));
     } else {
-      print('Form is valid');
+      print('Form is valid $formInvalid');
     }
     notifyListeners();
   }
 
   showAlertDialogLoaiHinhBaoHiem() async {
     int position = await Utility.showAlertDialog(
-      context,
+      navigatorKey.currentContext,
       "Chọn loại hình bảo hiểm",
       _loaiHingBaoHiemData,
       _loaiHinhBaoHiemIndex,
     );
     _loaiHinhBaoHiemIndex = position;
-    loaiHinhBaoHiemLabel = _loaiHingBaoHiemData[position];
+    print('viewmodel position $position');
+    loaiHinhBaoHiemPlaceholder = _loaiHingBaoHiemData[position];
     if (_loaiHinhBaoHiemIndex == 2) {
       showPhuongThucTraCuu = true;
     }
-    print(showPhuongThucTraCuu);
+    print('viewmodel _loaiHinhBaoHiemIndex $_loaiHinhBaoHiemIndex');
 
     notifyListeners();
   }

@@ -68,7 +68,7 @@ class _TraCuuState extends State<TraCuu> {
                             ),
                             VniAlertDialogSlected(
                               label: "Loại hình bảo hiểm",
-                              placeholder: provider.loaiHinhBaoHiemLabel,
+                              placeholder: provider.loaiHinhBaoHiemPlaceholder,
                               onPress: () => provider.showAlertDialogLoaiHinhBaoHiem(),
                             ),
                             Visibility(
@@ -151,13 +151,15 @@ class _TraCuuState extends State<TraCuu> {
                         child: Consumer<TraCuuViewModel>(
                           builder: (context, value, child) {
                             return RaisedButton(
-                              onPressed: provider.showPhuongThucTraCuu && provider.showTraCuuBangMaHopDong ? ()=>provider.validateForm() : null,
+                              onPressed:  () {
+                                  provider.validateForm();
+                              },
                               // bac: Colors.grey[300],
                               child: Text('XÁC NHẬN'),
-                              textColor: Colors.white,
-                              color: Color.fromRGBO(0, 129, 157, 1),
-                              disabledTextColor: Colors.grey[500],
-                              disabledColor: Colors.grey[300],
+                              // textColor: Colors.white,
+                              // color: Color.fromRGBO(0, 129, 157, 1),
+                              textColor: Colors.grey[500],
+                              color: Colors.grey[300],
                               elevation: 0,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(4)),
