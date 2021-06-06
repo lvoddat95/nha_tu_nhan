@@ -27,7 +27,7 @@ class _TraCuuState extends State<TraCuu> {
       body: Container(
         color: Colors.grey[300],
         child: Form(
-          autovalidateMode: AutovalidateMode.onUserInteraction,
+          // autovalidateMode: AutovalidateMode.onUserInteraction,
           key: provider.formKey,
           child: CustomScrollView(
             scrollDirection: Axis.vertical,
@@ -68,14 +68,14 @@ class _TraCuuState extends State<TraCuu> {
                             ),
                             VniAlertDialogSlected(
                               label: "Loại hình bảo hiểm",
-                              placeholder: provider.loaiHinhBaoHiemPlaceholder,
+                              hintText: provider.loaiHinhBaoHiemHintext,
                               onPress: () => provider.showAlertDialogLoaiHinhBaoHiem(),
                             ),
                             Visibility(
                               visible: provider.showPhuongThucTraCuu,
                               child: VniAlertDialogSlected(
                                 label: "Phương thức tra cứu",
-                                placeholder: provider.phuongThucTraCuuLabel,
+                                hintText: provider.phuongThucTraCuuHintText,
                                 onPress: () => provider.showAlertDialogPhuongThucTraCuu(),
                               ),
                             ),
@@ -100,10 +100,9 @@ class _TraCuuState extends State<TraCuu> {
                                             height: 5,
                                           ),
                                           VniTextFormField(
-                                            controller:
-                                            provider.maSoHopDongController,
-                                            placeholder: provider.maSoHopDongPlaceholder,
-                                            errorMessage: provider.maSoHopDongErrorText,
+                                            controller: provider.maSoHopDongController,
+                                            validator: provider.checkValidMaSoHopDong,
+                                            hintText: provider.maSoHopDongHintText,
                                             maxLength: 200,
                                             counterText: '',
                                           )
@@ -126,12 +125,13 @@ class _TraCuuState extends State<TraCuu> {
                                           SizedBox(
                                             height: 5,
                                           ),
+
                                           VniTextFormField(
-                                            controller:
-                                                provider.hoTenController,
-                                            placeholder: provider.hoTenPlaceholder,
-                                            errorMessage: provider.hoTenErrorText,
+                                            controller:provider.hoTenController,
+                                            validator: provider.checkValidHoTen,
+                                            hintText: provider.hoTenHintText,
                                             maxLength: 20,
+                                            textCapitalization: TextCapitalization.characters,
                                           ),
                                         ],
                                       ),

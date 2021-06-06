@@ -19,7 +19,7 @@ class Utility {
     int stateIndex,
   ) async {
     int position = stateIndex;
-    position = await showDialog(
+    await showDialog(
       barrierDismissible: true,
       context: context,
       builder: (BuildContext context) {
@@ -41,7 +41,7 @@ class Utility {
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: data.length,
-                      itemBuilder: (BuildContext context, int position) {
+                      itemBuilder: (BuildContext context, int index) {
                         return Column(
                           children: [
                             Divider(
@@ -59,7 +59,7 @@ class Utility {
                                   Expanded(
                                     child: Container(
                                       child: AutoSizeText(
-                                        data[position],
+                                        data[index],
                                         maxLines: 3,
                                         style: Theme.of(context)
                                             .textTheme
@@ -68,7 +68,7 @@ class Utility {
                                       ),
                                     ),
                                   ),
-                                  (position == stateIndex)
+                                  (index == stateIndex)
                                       ? Icon(
                                           Icons.radio_button_checked_rounded,
                                           color: ConvertHexColor('00819D'),
@@ -82,10 +82,9 @@ class Utility {
                                 ],
                               ),
                               onPressed: () {
-                                print(context);
-                                print('utility position $position');
-                                Navigator.pop(context, position);
-                                return data[position];
+                                Navigator.pop(context, index);
+                                position = index;
+                                return data[index];
                               },
                             )
                           ],

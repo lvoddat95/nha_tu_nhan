@@ -1,39 +1,40 @@
 import 'package:flutter/material.dart';
 
 class VniTextFormField extends StatelessWidget {
-  final String errorMessage;
-  final String placeholder;
+  final String hintText;
   final String counterText;
-  final TextEditingController controller;
   final int maxLength;
+  final TextEditingController controller;
+  final FormFieldValidator<String> validator;
+  final ValueChanged<String> onChanged;
+  final TextCapitalization textCapitalization;
 
   const VniTextFormField({
     Key key,
-    @required this.controller,
-    @required this.placeholder,
-    @required this.maxLength,
-    this.errorMessage,
+    @required this.hintText,
     this.counterText,
+    this.maxLength,
+    @required this.controller,
+    this.validator,
+    this.onChanged,
+    this.textCapitalization = TextCapitalization.none,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return errorMessage;
-        }
-        return null;
-      },
+      validator: validator,
+      onChanged: onChanged,
       autofocus: false,
       maxLength: maxLength,
-      textCapitalization: TextCapitalization.characters,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      textCapitalization: textCapitalization,
       textAlignVertical: TextAlignVertical.bottom,
       decoration: InputDecoration(
         isDense: true,
         counterText: counterText,
-        hintText: placeholder,
+        hintText: hintText,
         hintStyle: Theme.of(context).textTheme.caption,
         contentPadding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 8.0),
         border: OutlineInputBorder(),

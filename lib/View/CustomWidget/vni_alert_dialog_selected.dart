@@ -4,12 +4,12 @@ class VniAlertDialogSlected extends StatelessWidget {
   const VniAlertDialogSlected({
     Key key,
     @required this.label,
-    @required this.placeholder,
+    @required this.hintText,
     @required this.onPress,
   }) : super(key: key);
 
   final String label;
-  final String placeholder;
+  final String hintText;
   final VoidCallback onPress;
 
   @override
@@ -47,7 +47,7 @@ class VniAlertDialogSlected extends StatelessWidget {
                     MainAxisSize.max, // Use all of width in RaisedButton.
                 children: [
                   Text(
-                    placeholder,
+                    hintText,
                     style: TextStyle(
                       fontSize: 12,
                       color: Colors.grey[500],
