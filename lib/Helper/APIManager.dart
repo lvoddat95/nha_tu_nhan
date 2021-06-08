@@ -13,6 +13,7 @@ class APIManager{
   static final String key = "VNICLIENT";
   static final String baseURL = 'https://ebhhk.com.vn/Tools/APIMobile.aspx';
   static final String baseURLPayment = 'https://ebhhk.com.vn/thanh-toan-app.html';
+  static final String baseURLNhaTuNhan = 'http://api-app.bhhk.vn:8088/Tools/APIMobile.aspx';
 
   static BuildContext _context = navigatorKey.currentContext;
 
@@ -34,12 +35,8 @@ class APIManager{
     String _key = UT.GenKey(_body);
     _body['vni_SecureHash'] = _key;
     var _encode_body = json.encode(_body);
-
     var jsonResponse;
-    var res = await http.post(baseURL, body: _encode_body);
-    print('Response status: ${res.statusCode}');
-    print('Response body: ${res.body}');
-    print('-------------');
+    var res = await http.post(baseURLNhaTuNhan, body: _encode_body);
     if (res.statusCode == 200) {
       // if(res.body != null){
 
@@ -55,7 +52,7 @@ class APIManager{
                 MaterialPageRoute(builder: (context) {
                   return ThongTinTraCuu();
                 }));
-            print(_data);
+            print('_data ${_data}');
             break;
           case '-404':
             EasyLoading.dismiss();
@@ -74,8 +71,7 @@ class APIManager{
             break;
 
             default:
-
-            break;
+              break;
         }
       // }
 
