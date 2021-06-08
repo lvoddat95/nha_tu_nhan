@@ -6,11 +6,13 @@ class VniAlertDialogSlected extends StatelessWidget {
     @required this.label,
     @required this.hintText,
     @required this.onPress,
+    this.indexSelected = -1,
   }) : super(key: key);
 
   final String label;
   final String hintText;
   final VoidCallback onPress;
+  final int indexSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +52,7 @@ class VniAlertDialogSlected extends StatelessWidget {
                     hintText,
                     style: TextStyle(
                       fontSize: 12,
-                      color: Colors.grey[500],
+                      color: indexSelected < 0 ? Colors.grey[500] : Colors.grey[900],
                     ),
                   ),
                   Icon(

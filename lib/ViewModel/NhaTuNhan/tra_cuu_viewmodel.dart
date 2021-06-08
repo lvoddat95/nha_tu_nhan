@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nha_tu_nhan/Helper/APIManager.dart';
 import 'package:nha_tu_nhan/Helper/Utility.dart';
 import 'package:nha_tu_nhan/Model/validator_model.dart';
 import '../../View/NhaTuNhan/thong_tin_tra_cuu.dart';
@@ -21,7 +22,7 @@ class TraCuuViewModel with ChangeNotifier {
   bool showTraCuuBangMaHopDong = false;
 
   String loaiHinhBaoHiemHintext = "Chọn loại hình bảo hiểm";
-  int _loaiHinhBaoHiemIndex = -1;
+  int loaiHinhBaoHiemIndex = -1;
   final List<String> _loaiHingBaoHiemData = [
     'TNDS bắt buộc ô tô',
     'TNDS bắt buộc xe máy / xe điện',
@@ -29,10 +30,10 @@ class TraCuuViewModel with ChangeNotifier {
   ];
 
   String phuongThucTraCuuHintText = "Chọn phương thức tra cứu";
-  int _phuongThucTraCuuIndex = -1;
+  int phuongThucTraCuuIndex = -1;
   final List<String> _phuongThucTraCuuData = [
     'Tra cứu bằng Mã số hợp đồng',
-    'Tra cứu bằng QR Code',
+    // 'Tra cứu bằng QR Code',
   ];
 
   bool formValid = false;
@@ -49,13 +50,13 @@ class TraCuuViewModel with ChangeNotifier {
       context,
       "Chọn loại hình bảo hiểm",
       _loaiHingBaoHiemData,
-      _loaiHinhBaoHiemIndex,
+      loaiHinhBaoHiemIndex,
     );
 
-    _loaiHinhBaoHiemIndex = position;
+    loaiHinhBaoHiemIndex = position;
     loaiHinhBaoHiemHintext = _loaiHingBaoHiemData[position];
 
-    if (_loaiHinhBaoHiemIndex == 2) {
+    if (loaiHinhBaoHiemIndex == 2) {
       showPhuongThucTraCuu = true;
     }else{
       showPhuongThucTraCuu = false;
@@ -63,7 +64,7 @@ class TraCuuViewModel with ChangeNotifier {
 
     if (!showPhuongThucTraCuu){
       showTraCuuBangMaHopDong = false;
-      _phuongThucTraCuuIndex = -1;
+      phuongThucTraCuuIndex = -1;
       phuongThucTraCuuHintText = "Chọn phương thức tra cứu";
     }
     print('showAlertDialogLoaiHinhBaoHiem $showPhuongThucTraCuu');
@@ -76,11 +77,11 @@ class TraCuuViewModel with ChangeNotifier {
       context,
       "Chọn phương thức tra cứu",
       _phuongThucTraCuuData,
-      _phuongThucTraCuuIndex,
+      phuongThucTraCuuIndex,
     );
-    _phuongThucTraCuuIndex = position;
+    phuongThucTraCuuIndex = position;
     phuongThucTraCuuHintText = _phuongThucTraCuuData[position];
-    if (_phuongThucTraCuuIndex == 0) {
+    if (phuongThucTraCuuIndex == 0) {
       showTraCuuBangMaHopDong = true;
     }else{
       showTraCuuBangMaHopDong = false;
@@ -88,7 +89,7 @@ class TraCuuViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  String checkValidMaSoHopDong(String value){
+  String validateMaSoHopDong(String value){
       if (value == null || value.isEmpty) {
         _maSoHopDongValidator = ValidatorModel(value, '\u26A0 Thông tin bắt buộc.');
       }else{
@@ -97,7 +98,7 @@ class TraCuuViewModel with ChangeNotifier {
       return _maSoHopDongValidator.error;
   }
 
-  String checkValidHoTen(String value){
+  String validateHoTen(String value){
     if (value == null || value.isEmpty) {
       _hotenValidator = ValidatorModel(value, '\u26A0 Thông tin bắt buộc.');
     }else{
@@ -109,12 +110,10 @@ class TraCuuViewModel with ChangeNotifier {
   void validateForm() {
     if(showPhuongThucTraCuu && showTraCuuBangMaHopDong){
       formValid = formKey.currentState.validate();
+      String pMaSoHopDong = '4101800081/B05';
+      String pHoTen = 'Nguyễn Thị Thúy Hằng';
       if (formValid) {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ThongTinTraCuu(),
-            ));
+       APIManager.apiTraCuuNhaTuNhan(2, 0, pMaSoHopDong, pHoTen);
 
       } else {
         print('Form is valid $formValid');

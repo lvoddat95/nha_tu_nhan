@@ -70,6 +70,7 @@ class _TraCuuState extends State<TraCuu> {
                               label: "Loại hình bảo hiểm",
                               hintText: provider.loaiHinhBaoHiemHintext,
                               onPress: () => provider.showAlertDialogLoaiHinhBaoHiem(),
+                              indexSelected: provider.loaiHinhBaoHiemIndex,
                             ),
                             Visibility(
                               visible: provider.showPhuongThucTraCuu,
@@ -77,6 +78,7 @@ class _TraCuuState extends State<TraCuu> {
                                 label: "Phương thức tra cứu",
                                 hintText: provider.phuongThucTraCuuHintText,
                                 onPress: () => provider.showAlertDialogPhuongThucTraCuu(),
+                                indexSelected: provider.phuongThucTraCuuIndex,
                               ),
                             ),
                             Visibility(
@@ -101,7 +103,7 @@ class _TraCuuState extends State<TraCuu> {
                                           ),
                                           VniTextFormField(
                                             controller: provider.maSoHopDongController,
-                                            validator: provider.checkValidMaSoHopDong,
+                                            validator: provider.validateMaSoHopDong,
                                             hintText: provider.maSoHopDongHintText,
                                             maxLength: 200,
                                             counterText: '',
@@ -128,7 +130,7 @@ class _TraCuuState extends State<TraCuu> {
 
                                           VniTextFormField(
                                             controller:provider.hoTenController,
-                                            validator: provider.checkValidHoTen,
+                                            validator: provider.validateHoTen,
                                             hintText: provider.hoTenHintText,
                                             maxLength: 20,
                                             textCapitalization: TextCapitalization.characters,
