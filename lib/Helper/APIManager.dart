@@ -38,7 +38,7 @@ class APIManager{
     var jsonResponse;
     var res = await http.post(baseURLNhaTuNhan, body: _encode_body);
     if (res.statusCode == 200) {
-      // if(res.body != null){
+      if(res.body != null){
 
       final objectBody = jsonDecode(res.body);
         String statusCode = objectBody['ResponseCode'];
@@ -73,7 +73,7 @@ class APIManager{
             default:
               break;
         }
-      // }
+      }
 
     }else if(res.statusCode != 200){
       EasyLoading.dismiss();

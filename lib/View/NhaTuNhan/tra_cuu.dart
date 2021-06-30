@@ -27,7 +27,7 @@ class _TraCuuState extends State<TraCuu> {
       body: Container(
         color: Colors.grey[300],
         child: Form(
-          // autovalidateMode: AutovalidateMode.onUserInteraction,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           key: provider.formKey,
           child: CustomScrollView(
             scrollDirection: Axis.vertical,
@@ -103,7 +103,8 @@ class _TraCuuState extends State<TraCuu> {
                                           ),
                                           VniTextFormField(
                                             controller: provider.maSoHopDongController,
-                                            validator: provider.validateMaSoHopDong,
+                                            onChanged: provider.validateMaSoHopDong,
+                                            errorText: provider.getMaSoHopDongValidator.error,
                                             hintText: provider.maSoHopDongHintText,
                                             maxLength: 200,
                                             counterText: '',
@@ -130,7 +131,8 @@ class _TraCuuState extends State<TraCuu> {
 
                                           VniTextFormField(
                                             controller:provider.hoTenController,
-                                            validator: provider.validateHoTen,
+                                            onChanged: provider.validateHoTen,
+                                            errorText: provider.getHotenValidator.error,
                                             hintText: provider.hoTenHintText,
                                             maxLength: 20,
                                             textCapitalization: TextCapitalization.characters,
@@ -153,14 +155,20 @@ class _TraCuuState extends State<TraCuu> {
                         child: Consumer<TraCuuViewModel>(
                           builder: (context, value, child) {
                             return RaisedButton(
-                              onPressed:  () {
-                                  provider.validateForm();
-                              },
+
+                              onPressed:  (
+                                  (provider
+                                      .enableBtnXacNhan ==
+                                      true)
+                                      ? provider.validateForm
+                                      : null
+                              ),
+
                               // bac: Colors.grey[300],
                               child: Text('XÁC NHẬN'),
                               // textColor: Colors.white,
                               // color: Color.fromRGBO(0, 129, 157, 1),
-                              textColor: Colors.grey[500],
+                              // textColor: provider.v12 ? Colors.white : Colors.grey[500],
                               color: Colors.grey[300],
                               elevation: 0,
                               shape: RoundedRectangleBorder(
